@@ -5,9 +5,6 @@
     <groupId>com.yg.learning</groupId>
     <artifactId>learning_parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <modules>
-        <module>../learning_content</module>
-    </modules>
     <name>learning_parent</name>
     <description>learning_parent</description>
     <packaging>pom</packaging>
