@@ -13,7 +13,8 @@ import java.util.Arrays;
 public class ContentCodeGenerator {
     private static final String SERVICE_NAME = "content";
     private static final String DATA_SOURCE_USER_NAME = "root";
-    private static final String DATA_SOURCE_PASSWORD = "mysql";
+//    private static final String DATA_SOURCE_PASSWORD = "mysql";
+    private static final String DATA_SOURCE_PASSWORD = "walljs111";
     private static final String[] TABLE_NAMES = new String[]{
             //			"mq_message",
 //			"mq_message_history"
@@ -52,10 +53,8 @@ public class ContentCodeGenerator {
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
         System.out.println(SERVICE_NAME);
-//        String url = "jdbc:mysql://191.168.101.65:3306/db_learning_" + SERVICE_NAME + "?serverTimezone=UTC&useUnicode=true&useSSL=false&characterEncoding=utf8";
-//        System.out.println(url);
-//        dsc.setUrl(url);
-        dsc.setUrl("jdbc:mysql://192.168.101.65:3306/db_learning_" + SERVICE_NAME
+//        dsc.setUrl("jdbc:mysql://192.168.101.65:3306/db_learning_" + SERVICE_NAME
+        dsc.setUrl("jdbc:mysql://localhost:3306/db_learning_" + SERVICE_NAME
                 + "?serverTimezone=UTC&useUnicode=true&useSSL=false&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
 //        dsc.setDriverName("com.mysql.jdbc.Driver");
@@ -65,7 +64,7 @@ public class ContentCodeGenerator {
 
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(SERVICE_NAME);
-        pc.setParent("com.yg");
+        pc.setParent("com.yg.learning");
 
         pc.setServiceImpl("service.impl");
         pc.setXml("mapper");

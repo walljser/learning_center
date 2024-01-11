@@ -8,9 +8,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/learning_parent/pom.xml" />
-        <option value="$PROJECT_DIR$/learning_base/pom.xml" />
-        <option value="$PROJECT_DIR$/learning_content/learning_content_api/pom.xml" />
         <option value="$PROJECT_DIR$/learning_content/pom.xml" />
+        <option value="$PROJECT_DIR$/learning_content/learning_content_api/pom.xml" />
         <option value="$PROJECT_DIR$/learning_generator/pom.xml" />
       </list>
     </option>
