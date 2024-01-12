@@ -5,15 +5,13 @@ import com.yg.learning.base.model.PageResult;
 import com.yg.learning.content.model.dto.CourseBaseDto;
 import com.yg.learning.content.model.dto.CreateCourseDto;
 import com.yg.learning.content.model.dto.QueryCourseBaseDto;
+import com.yg.learning.content.model.dto.UpdateCourseDto;
 import com.yg.learning.content.model.pojo.CourseBase;
 import com.yg.learning.content.service.CourseBaseService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class CourseBaseController {
@@ -26,8 +24,18 @@ public class CourseBaseController {
     }
 
     @PostMapping("/course")
-    public CourseBaseDto createCourseBase(@RequestBody CreateCourseDto createCourseDto) {
+    public CourseBaseDto createCourseBase(@Valid @RequestBody CreateCourseDto createCourseDto) {
         Long companyId = 1232141425L;
         return courseBaseService.createCourseBase(companyId, createCourseDto);
+    }
+
+    @PutMapping("/course")
+    public CourseBaseDto updateCourseBase(@Valid @RequestBody UpdateCourseDto updateCourseDto) {
+        return courseBaseService.updateCourseBase(updateCourseDto);
+    }
+
+    @GetMapping("/course/{courseId}")
+    public CourseBaseDto getCourseBaseInfo(@PathVariable Long courseId) {
+        return courseBaseService.selectByCourseId(courseId);
     }
 }

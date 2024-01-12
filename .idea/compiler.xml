@@ -8,12 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for learning_parent" enabled="true">
+      <profile name="Annotation profile for learning_content" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/Documents/develop/mvn_repo/org/projectlombok/lombok/1.18.8/lombok-1.18.8.jar" />
+          <entry name="$PROJECT_DIR$/../../develop/maven_repo/org/projectlombok/lombok/1.18.8/lombok-1.18.8.jar" />
         </processorPath>
         <module name="learning_system_api" />
         <module name="learning_content_model" />

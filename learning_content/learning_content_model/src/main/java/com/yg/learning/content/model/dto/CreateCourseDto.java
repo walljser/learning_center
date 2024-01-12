@@ -1,6 +1,7 @@
 package com.yg.learning.content.model.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -12,7 +13,6 @@ public class CreateCourseDto {
     private String name;
 
     @NotEmpty(message = "适用人群不能为空")
-    @Size(message = "适用人群内容过少",min = 10)
     private String users;
 
     private String tags;

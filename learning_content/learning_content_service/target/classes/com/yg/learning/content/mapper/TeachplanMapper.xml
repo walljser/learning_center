@@ -26,10 +26,17 @@
     <sql id="Base_Column_List">
         id, pname, parentid, grade, media_type, start_time, end_time, description, timelength, orderby, course_id, course_pub_id, status, is_preview, create_date, change_date
     </sql>
+
+    <resultMap id="TeachplanDtoResultMap" type="com.yg.learning.content.model.dto.TeachplanDto" extends="BaseResultMap">
+    </resultMap>
+
+    <select id="selectTeachplanByCourseId" resultMap="TeachplanDtoResultMap" parameterType="java.lang.Long">
+        select * from teachplan where course_id = #{id}
+    </select>
     
     <resultMap id="treeNodeResultMap" type="com.yg.learning.content.model.dto.TeachplanDto">
         <id column="one_id" property="id"></id>
-        <result column="one_name" property="pname"></result>
+        <result column="one_pname" property="pname"></result>
         <result column="one_parentid" property="parentid"></result>
         <result column="one_grade" property="grade"></result>
         <result column="one_media_type" property="mediaType"></result>
@@ -44,7 +51,7 @@
         <result column="one_isPreview" property="isPreview"></result>
         <collection property="teachPlanTreeNodes" ofType="com.yg.learning.content.model.dto.TeachplanDto">
             <id column="two_id" property="id"></id>
-            <result column="two_name" property="pname"></result>
+            <result column="two_pname" property="pname"></result>
             <result column="two_parentid" property="parentid"></result>
             <result column="two_grade" property="grade"></result>
             <result column="two_media_type" property="mediaType"></result>
@@ -68,6 +75,7 @@
     <select id="selectTeachPlanTreeNodesByCourseId" resultMap="treeNodeResultMap" parameterType="long">
         select
             one.id as one_id,
+            one.pname as one_pname,
             one.parentid as one_parentid,
             one.grade as one_grade,
             one.media_type as one_mediaType,
@@ -81,6 +89,7 @@
             one.status as one_status,
             one.is_preview as one_isPreview,
             two.id as two_id,
+            two.pname as two_pname,
             two.parentid as two_parentid,
             two.grade as two_grade,
             two.media_type as two_mediaType,
@@ -96,11 +105,11 @@
             m1.id as teachplanMediaId,
             m1.media_fileName as mediaFileName,
             m1.media_id as mediaId
-            from teachplan one
-            inner join teachplan two on one.id = two.parentid
-            left join teachplan_media m1 on m1.teachplan_id = one.id
+        from teachplan one
+                 inner join teachplan two on two.parentid = one.id
+                 left join teachplan_media m1 on two.id = m1.teachplan_id
         where one.parentid = 0
-            and one.course_id = #{id}
+          and one.course_id = #{id}
         order by one.orderby,two.orderby
     </select>
 </mapper>

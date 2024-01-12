@@ -12,6 +12,7 @@ import com.yg.learning.content.mapper.CourseMarketMapper;
 import com.yg.learning.content.model.dto.CourseBaseDto;
 import com.yg.learning.content.model.dto.CreateCourseDto;
 import com.yg.learning.content.model.dto.QueryCourseBaseDto;
+import com.yg.learning.content.model.dto.UpdateCourseDto;
 import com.yg.learning.content.model.pojo.CourseBase;
 import com.yg.learning.content.model.pojo.CourseCategory;
 import com.yg.learning.content.model.pojo.CourseMarket;
@@ -60,26 +61,6 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 
     @Override
     public CourseBaseDto createCourseBase(Long companyId, CreateCourseDto createCourseDto) {
-        System.out.println("执行到这里");
-        if (StringUtils.isBlank(createCourseDto.getName())) {
-            LearningException.cast("课程名称为空");
-        }
-        if (StringUtils.isBlank(createCourseDto.getMt())) {
-            LearningException.cast("课程分类为空");
-        }
-        if (StringUtils.isBlank(createCourseDto.getSt())) {
-            LearningException.cast("课程分类为空");
-        }
-        if (StringUtils.isBlank(createCourseDto.getGrade())) {
-            LearningException.cast("课程等级为空");
-        }
-        if (StringUtils.isBlank(createCourseDto.getTeachmode())) {
-            LearningException.cast("课程教学模式为空");
-        }
-        if (StringUtils.isBlank(createCourseDto.getCharge())) {
-            LearningException.cast("课程收费规则为空");
-        }
-
         CourseBase courseBaseNew = new CourseBase();
         BeanUtils.copyProperties(createCourseDto, courseBaseNew);
         courseBaseNew.setCompanyId(companyId);
@@ -99,6 +80,39 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 
         CourseBaseDto courseBaseDtoInfo = getCourseBaseDtoInfo(courseBaseNew.getId());
         return courseBaseDtoInfo;
+    }
+
+    @Override
+    public CourseBaseDto updateCourseBase(UpdateCourseDto updateCourseDto) {
+        Long courseId = updateCourseDto.getId();
+
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        if (courseBase == null) {
+            LearningException.cast("没有找到课程信息");
+        }
+
+        BeanUtils.copyProperties(updateCourseDto, courseBase);
+        courseBaseMapper.updateById(courseBase);
+
+        CourseMarket courseMarket = new CourseMarket();
+        BeanUtils.copyProperties(updateCourseDto, courseMarket);
+        saveCourseMarketInfo(courseMarket);
+
+        CourseBaseDto courseBaseDtoInfo = getCourseBaseDtoInfo(courseId);
+        return courseBaseDtoInfo;
+    }
+
+    @Override
+    public CourseBaseDto selectByCourseId(Long courseId) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        CourseBaseDto courseBaseDto = new CourseBaseDto();
+        BeanUtils.copyProperties(courseBase, courseBaseDto);
+
+        CourseMarket courseMarket = courseMarketMapper.selectById(courseId);
+        if (courseMarket != null) {
+            BeanUtils.copyProperties(courseMarket, courseBaseDto);
+        }
+        return courseBaseDto;
     }
 
     private CourseBaseDto getCourseBaseDtoInfo(Long courseId) {

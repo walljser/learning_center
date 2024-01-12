@@ -1,6 +1,7 @@
 package com.yg.learning.content.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yg.learning.content.model.pojo.CourseBase;
 import com.yg.learning.content.model.pojo.CourseMarket;
 
 /**
@@ -11,5 +12,4 @@ import com.yg.learning.content.model.pojo.CourseMarket;
  * @author yg
  */
 public interface CourseMarketMapper extends BaseMapper<CourseMarket> {
-
 }
