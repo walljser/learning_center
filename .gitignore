@@ -103,6 +103,7 @@ rebel.xml
 # log
 log/
 logs/
+logs/*
  
 # IntelliJ IDEA
 *.iml
