@@ -1,7 +1,10 @@
 package com.yg.learning.content.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yg.learning.content.model.dto.TeachplanDto;
 import com.yg.learning.content.model.pojo.Teachplan;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,4 +15,5 @@ import com.yg.learning.content.model.pojo.Teachplan;
  */
 public interface TeachplanMapper extends BaseMapper<Teachplan> {
 
+    List<TeachplanDto> selectTeachPlanTreeNodesByCourseId(Long id);
 }

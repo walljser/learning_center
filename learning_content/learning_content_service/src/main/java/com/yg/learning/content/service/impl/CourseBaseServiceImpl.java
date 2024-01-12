@@ -2,25 +2,40 @@ package com.yg.learning.content.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yg.learning.base.exception.LearningException;
 import com.yg.learning.base.model.PageParams;
 import com.yg.learning.base.model.PageResult;
 import com.yg.learning.content.mapper.CourseBaseMapper;
+import com.yg.learning.content.mapper.CourseCategoryMapper;
+import com.yg.learning.content.mapper.CourseMarketMapper;
 import com.yg.learning.content.model.dto.CourseBaseDto;
+import com.yg.learning.content.model.dto.CreateCourseDto;
 import com.yg.learning.content.model.dto.QueryCourseBaseDto;
 import com.yg.learning.content.model.pojo.CourseBase;
+import com.yg.learning.content.model.pojo.CourseCategory;
+import com.yg.learning.content.model.pojo.CourseMarket;
 import com.yg.learning.content.service.CourseBaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @Service
-public class CourseBaseServiceImpl implements CourseBaseService {
+public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseBase> implements CourseBaseService {
     @Autowired
     private CourseBaseMapper courseBaseMapper;
+
+    @Autowired
+    private CourseMarketMapper courseMarketMapper;
+
+    @Autowired
+    private CourseCategoryMapper courseCategoryMapper;
 
     @Override
     public PageResult<CourseBase> queryCourseBaseList(PageParams pageParams, QueryCourseBaseDto queryCourseBaseDto) {
@@ -36,10 +51,106 @@ public class CourseBaseServiceImpl implements CourseBaseService {
 
         PageResult<CourseBase> pageResult = new PageResult<>();
         pageResult.setItems(list);
-        pageResult.setTotal(result.getTotal());
+        pageResult.setCounts(result.getTotal());
         pageResult.setPageNo(pageParams.getPageNo());
         pageResult.setPageSize(pageParams.getPageSize());
 
         return pageResult;
+    }
+
+    @Override
+    public CourseBaseDto createCourseBase(Long companyId, CreateCourseDto createCourseDto) {
+        System.out.println("执行到这里");
+        if (StringUtils.isBlank(createCourseDto.getName())) {
+            LearningException.cast("课程名称为空");
+        }
+        if (StringUtils.isBlank(createCourseDto.getMt())) {
+            LearningException.cast("课程分类为空");
+        }
+        if (StringUtils.isBlank(createCourseDto.getSt())) {
+            LearningException.cast("课程分类为空");
+        }
+        if (StringUtils.isBlank(createCourseDto.getGrade())) {
+            LearningException.cast("课程等级为空");
+        }
+        if (StringUtils.isBlank(createCourseDto.getTeachmode())) {
+            LearningException.cast("课程教学模式为空");
+        }
+        if (StringUtils.isBlank(createCourseDto.getCharge())) {
+            LearningException.cast("课程收费规则为空");
+        }
+
+        CourseBase courseBaseNew = new CourseBase();
+        BeanUtils.copyProperties(createCourseDto, courseBaseNew);
+        courseBaseNew.setCompanyId(companyId);
+        courseBaseNew.setCreateDate(LocalDateTime.now());
+        courseBaseNew.setAuditStatus("202002");
+        courseBaseNew.setStatus("203001");
+
+        int insert = courseBaseMapper.insert(courseBaseNew);
+        if (insert <= 0) {
+            LearningException.cast("新增课程信息失败");
+        }
+
+        CourseMarket courseMarketNew = new CourseMarket();
+        BeanUtils.copyProperties(createCourseDto, courseMarketNew);
+        courseMarketNew.setId(courseBaseNew.getId());
+        saveCourseMarketInfo(courseMarketNew);
+
+        CourseBaseDto courseBaseDtoInfo = getCourseBaseDtoInfo(courseBaseNew.getId());
+        return courseBaseDtoInfo;
+    }
+
+    private CourseBaseDto getCourseBaseDtoInfo(Long courseId) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+
+        if (courseBase == null) {
+            return null;
+        }
+        CourseMarket courseMarket = courseMarketMapper.selectById(courseId);
+
+        CourseBaseDto courseBaseDto = new CourseBaseDto();
+        BeanUtils.copyProperties(courseBase, courseBaseDto);
+
+        if (courseMarket != null) {
+            BeanUtils.copyProperties(courseMarket, courseBaseDto);
+        }
+        // 查找分类名称
+        CourseCategory mtCategory = courseCategoryMapper.selectById(courseBase.getMt());
+        if (mtCategory != null) {
+            courseBaseDto.setMtName(mtCategory.getName());
+        }
+        CourseCategory stCategory = courseCategoryMapper.selectById(courseBase.getSt());
+        if (stCategory != null) {
+            courseBaseDto.setMtName(stCategory.getName());
+        }
+
+        return courseBaseDto;
+    }
+
+    private int saveCourseMarketInfo(CourseMarket courseMarketNew) {
+        String charge = courseMarketNew.getCharge();
+        if (charge == null) {
+            LearningException.cast("收费规则不能为空");
+        }
+        if (charge.equals("201001")) {
+            Float price = courseMarketNew.getPrice();
+            if (price == null || price.floatValue() <= 0) {
+                LearningException.cast("收费金额不能为空，且必须>0");
+            }
+        }
+
+        Long courseId = courseMarketNew.getId();
+
+        CourseMarket courseMarket = courseMarketMapper.selectById(courseId);
+        if (courseMarket == null) {
+            int insert = courseMarketMapper.insert(courseMarketNew);
+            return insert;
+        } else {
+            BeanUtils.copyProperties(courseMarketNew, courseMarket);
+            courseMarket.setId(courseId);
+            int i = courseMarketMapper.updateById(courseMarket);
+            return i;
+        }
     }
 }

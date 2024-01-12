@@ -10,15 +10,16 @@ import java.util.List;
 @ToString
 public class PageResult<T> implements Serializable {
     private List<T> items;
-    private long total;
+
+    private long counts;
     private long pageNo;
     private long pageSize;
 
     public PageResult() {}
 
-    public PageResult(List<T> items, Long total, Long pageNo, Long pageSize) {
+    public PageResult(List<T> items, Long counts, Long pageNo, Long pageSize) {
         this.items = items;
-        this.total = total;
+        this.counts = counts;
         this.pageNo = pageNo;
         this.pageSize = pageSize;
     }

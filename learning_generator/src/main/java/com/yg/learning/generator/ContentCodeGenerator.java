@@ -18,14 +18,14 @@ public class ContentCodeGenerator {
     private static final String[] TABLE_NAMES = new String[]{
             //			"mq_message",
 //			"mq_message_history"
-            "course_base",
-            "course_market",
-            "course_teacher",
-            "course_category",
-            "teachplan",
-            "teachplan_media",
-            "course_publish",
-            "course_publish_pre"
+//            "course_base",
+//            "course_market",
+//            "course_teacher",
+//            "course_category",
+//            "teachplan",
+//            "teachplan_media",
+//            "course_publish",
+//            "course_publish_pre"
     };
     // TODO 默认生成entity，需要生成DTO修改此变量
     // 一般情况下要先生成DTO类 然后修改次参数再生成 PO 类
