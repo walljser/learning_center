@@ -12,6 +12,7 @@
     <modules>
         <module>../learning_base</module>
         <module>../learning_system</module>
+        <module>../learning_gateway</module>
     </modules>
 
     <properties>

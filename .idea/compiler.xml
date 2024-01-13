@@ -16,6 +16,7 @@
           <entry name="$PROJECT_DIR$/../../develop/maven_repo/org/projectlombok/lombok/1.18.8/lombok-1.18.8.jar" />
         </processorPath>
         <module name="learning_system_api" />
+        <module name="learning_gateway" />
         <module name="learning_content_model" />
         <module name="learning_system_model" />
         <module name="learning_base" />
@@ -25,5 +26,8 @@
         <module name="learning_system_service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="e-learning-gateway" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
