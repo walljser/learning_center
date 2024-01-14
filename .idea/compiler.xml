@@ -23,18 +23,14 @@
         <module name="learning_media_api" />
         <module name="learning_base" />
         <module name="learning_content_service" />
-        <module name="learning_content_api" />
         <module name="learning_media_model" />
+        <module name="learning_content_api" />
         <module name="learning_generator" />
         <module name="learning_system_service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="e-learning-gateway" target="1.8" />
-      <module name="learning_media" target="1.8" />
-      <module name="learning_media_api" target="1.8" />
-      <module name="learning_media_model" target="1.8" />
-      <module name="learning_media_service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

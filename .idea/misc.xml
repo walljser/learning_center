@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/learning_content/pom.xml" />
         <option value="$PROJECT_DIR$/learning_content/learning_content_api/pom.xml" />
         <option value="$PROJECT_DIR$/learning_generator/pom.xml" />
+        <option value="$PROJECT_DIR$/learning_media/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
