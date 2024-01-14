@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for learning_content" enabled="true">
+      <profile name="Annotation profile for learning_parent" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -17,17 +17,24 @@
         </processorPath>
         <module name="learning_system_api" />
         <module name="learning_gateway" />
+        <module name="learning_media_service" />
         <module name="learning_content_model" />
         <module name="learning_system_model" />
+        <module name="learning_media_api" />
         <module name="learning_base" />
         <module name="learning_content_service" />
         <module name="learning_content_api" />
+        <module name="learning_media_model" />
         <module name="learning_generator" />
         <module name="learning_system_service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="e-learning-gateway" target="1.8" />
+      <module name="learning_media" target="1.8" />
+      <module name="learning_media_api" target="1.8" />
+      <module name="learning_media_model" target="1.8" />
+      <module name="learning_media_service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
